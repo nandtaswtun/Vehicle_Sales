@@ -1,0 +1,32 @@
+USE learn_sql;
+
+SELECT * FROM sales_data;
+
+-- find the highest total sales each year
+SELECT
+	YEAR_ID,
+	ROUND(SUM(SALES), 2) AS TOTAL_SALES
+FROM sales_data
+GROUP BY YEAR_ID;
+
+-- which countries have the highest sales of classic cars?
+SELECT
+	COUNTRY,
+	PRODUCTLINE,
+	ROUND(SUM(SALES), 2) AS TOTAL_SALES
+FROM sales_data
+WHERE PRODUCTLINE = 'Classic Cars'
+GROUP BY COUNTRY, PRODUCTLINE
+ORDER BY TOTAL_SALES DESC;
+
+-- what products sell best during the winter season?
+SELECT
+	YEAR_ID,
+	MONTH_ID,
+	PRODUCTLINE,
+	SUM(QUANTITYORDERED) AS TOTAL_QTY
+FROM sales_data
+WHERE YEAR_ID BETWEEN 2003 AND 2004
+AND (MONTH_ID >= 9 OR MONTH_ID <= 4)
+GROUP BY YEAR_ID, MONTH_ID, PRODUCTLINE
+ORDER BY PRODUCTLINE ASC;
